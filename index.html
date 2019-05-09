@@ -1,0 +1,25 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+  <script src="unirand.js"></script>
+  <script src="tests/passage.js"></script>
+  <script src="tests/tests.js"></script>
+  <script type="text/javascript">
+
+  tests.onprogress = function(progress){
+    if(!progress.running){
+      document.body.innerHTML = progress.name + ': Passed ' + progress.passed + ' of ' + progress.total;
+    }
+  }
+
+  tests.run();
+
+  </script>
+</body>
+
+</html>
