@@ -2,7 +2,7 @@
 generate random integers uniformly from any specified range
 
 ## What?
-JavaScript does not provide any way to generate random integers uniformly from a custom range. Existing sources of random numbers, like `Math.random()` or `crypto.getRandomValues()` provide random numbers from uniformly random bits, but this does not easly translate to other ranges, like choosing a random integer between 1 and 10, where all integers are equally likely.
+JavaScript does not provide any way to generate random integers uniformly from a custom range. Existing sources of random numbers, like `Math.random()` or `crypto.getRandomValues()` provide random numbers from uniformly random bits, but this does not easily translate to other ranges, like choosing a random integer between 1 and 10, where all integers are equally likely.
 
 ## Why?
 
