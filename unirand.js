@@ -23,12 +23,25 @@ var unirand = (function(){
     state.range = state.range * range;
   }
 
+  function callback(){
+    
+  }
+
   function unirand(getRandom){
     var state = {
       value: 0,
-      range: 1
+      range: 1,
+      requests: [],
+      wait: false
     };
     return {
+      request: function(cb, max, min){
+        if(typeof cb === 'function'){
+          state.requests.push([
+            cb, max|0, min|0
+          ]);
+        }
+      },
       state: function(){
         return {
           value: state.value, 
