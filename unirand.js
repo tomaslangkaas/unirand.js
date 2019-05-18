@@ -23,8 +23,25 @@ var unirand = (function(){
     state.range = state.range * range;
   }
 
-  function callback(){
-    
+  function process(state){
+    var result;
+    while(state.requests.length && state.requests[0].range <= state.range){
+      result = extract(state, state.requests[0].range);
+      if(result > -1){
+        state.requests[0].callback(result + state.requests[0].offset);
+        state.requests.shift();
+      } 
+    }
+    if(state.requests.length && !state.wait){
+      state.wait = true;
+      state.getRandom(function(result, min, max){
+        if(max - min > 0){
+          expand(state, result - min, max - min + 1)
+          state.wait = false;
+          process(state);
+        }
+      })
+    }   
   }
 
   function unirand(getRandom){
@@ -32,14 +49,18 @@ var unirand = (function(){
       value: 0,
       range: 1,
       requests: [],
-      wait: false
+      wait: false,
+      getRandom: getRandom
     };
     return {
-      request: function(cb, max, min){
-        if(typeof cb === 'function'){
-          state.requests.push([
-            cb, max|0, min|0
-          ]);
+      request: function(cb, min, max){
+        if(typeof cb === 'function' && max - min > 0){
+          state.requests.push({
+            callback: cb,
+            range: max - min + 1,
+            offset: min
+          });
+          process(state);
         }
       },
       state: function(){
