@@ -44,13 +44,17 @@ var unirand = (function(){
     }   
   }
 
+  function randomDefault(callback){
+    callback(Math.random() * 0x10000 | 0, 0, 0xffff);
+  }
+
   function unirand(getRandom){
     var state = {
       value: 0,
       range: 1,
       requests: [],
       wait: false,
-      getRandom: getRandom
+      getRandom: getRandom || randomDefault
     };
     return {
       request: function(cb, min, max){
@@ -69,7 +73,7 @@ var unirand = (function(){
           range: state.range
         };
       },
-      getRandom: getRandom
+      getRandom: state.getRandom
     }
   }
 
